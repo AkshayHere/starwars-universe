@@ -1,28 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { DatePicker } from 'antd';
+import React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import {
+  Select,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Container,
+} from "@mui/material";
+import Header from "./components/Header";
+import "../src/App.css";
 
 function App() {
+  const [age, setAge] = React.useState("");
+
+  const handleChange = (event: any) => {
+    setAge(event.target.value);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div>
-          Edit <code>src/App.tsx</code> and save to reload.
-          <br />
-          <DatePicker />
+    <CssBaseline>
+      <Container maxWidth="xl">
+        <Header />
+        <div className="App-body">
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Character</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={age}
+              label="Character"
+              onChange={handleChange}
+            >
+              <MenuItem value={10}>Obiwan Kenobi</MenuItem>
+              <MenuItem value={20}>Han Solo</MenuItem>
+              <MenuItem value={30}>Anakin Skywalker</MenuItem>
+              <MenuItem value={30}>Yoda</MenuItem>
+            </Select>
+          </FormControl>
         </div>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      </Container>
+    </CssBaseline>
   );
 }
 

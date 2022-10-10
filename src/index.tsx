@@ -5,10 +5,9 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import "antd/dist/antd.css";
-import Home from "./Home";
 
 import reducer from "./store/reducer";
+import App from "./App";
 
 const store: Store<ArticleState, ArticleAction> & {
   dispatch: DispatchType;
@@ -17,7 +16,7 @@ const store: Store<ArticleState, ArticleAction> & {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Home />
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

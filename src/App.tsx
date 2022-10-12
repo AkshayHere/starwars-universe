@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
   Select,
@@ -7,39 +7,99 @@ import {
   InputLabel,
   Container,
 } from "@mui/material";
+
+import { connect } from "react-redux";
+import { AnyAction } from "redux";
+
 import Header from "./components/Header";
 import "../src/App.css";
+import { fetchRequest } from "./store/species/action";
+import { ThunkDispatch } from "redux-thunk";
+import { ApplicationState } from "./store";
+import { Species } from "./store/species/types";
 
-function App() {
-  const [age, setAge] = React.useState("");
+interface PropsFromState {
+  loading: boolean;
+  species: Species[];
+  errors?: string;
+}
+
+interface propsFromDispatch {
+  fetchRequest: () => any;
+}
+
+type AllProps = PropsFromState & propsFromDispatch;
+
+const App: React.FC<AllProps> = ({
+  loading,
+  errors,
+  species,
+  fetchRequest,
+}) => {
+  console.log("species", species);
+  console.log("loading", loading);
+
+  const [currentSpecies, setSpecies] = React.useState("");
 
   const handleChange = (event: any) => {
-    setAge(event.target.value);
+    setSpecies(event.target.value);
   };
+
+  useEffect(() => {
+    fetchRequest();
+  }, [fetchRequest]);
+
+  useEffect(() => {
+    console.log("loading > ", loading);
+  }, [loading]);
+
   return (
     <CssBaseline>
       <Container maxWidth="xl">
         <Header />
         <div className="App-body">
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Character</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Character"
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Obiwan Kenobi</MenuItem>
-              <MenuItem value={20}>Han Solo</MenuItem>
-              <MenuItem value={30}>Anakin Skywalker</MenuItem>
-              <MenuItem value={30}>Yoda</MenuItem>
-            </Select>
-          </FormControl>
+          {loading ? 
+          <h5>Loading Data...</h5>
+          : (
+            <>
+              <FormControl fullWidth>
+                <InputLabel id="species-label">Species</InputLabel>
+                <Select
+                  labelId="species-label"
+                  id="species-select"
+                  value={currentSpecies}
+                  label="Species"
+                  onChange={handleChange}
+                >
+                  {species.map((data) => {
+                    return (
+                      <MenuItem key={data.name} value={data.name}>
+                        {data.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </>
+          )}
         </div>
       </Container>
     </CssBaseline>
   );
-}
+};
 
-export default App;
+const mapStateToProps = ({ species }: ApplicationState) => ({
+  loading: species.loading,
+  errors: species.errors,
+  species: species.species,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    fetchRequest: () => {
+      dispatch(fetchRequest());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

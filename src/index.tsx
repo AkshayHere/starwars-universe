@@ -1,22 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore, applyMiddleware, Store } from "redux";
 import { Provider } from "react-redux";
-import thunk from "redux-thunk";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-
-import reducer from "./store/reducer";
+import { createBrowserHistory } from "history";
 import App from "./App";
+import configureStore from "./configureStore";
+import { ConnectedRouter } from "connected-react-router";
+const history = createBrowserHistory();
 
-const store: Store<ArticleState, ArticleAction> & {
-  dispatch: DispatchType;
-} = createStore(reducer, applyMiddleware(thunk));
+const initialState: any = {};
+const store = configureStore(history, initialState);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

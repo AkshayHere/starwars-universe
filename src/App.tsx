@@ -13,10 +13,11 @@ import { AnyAction } from "redux";
 
 import Header from "./components/Header";
 import "../src/App.css";
-import { fetchRequest } from "./store/species/action";
+import { fetchRequest, setSpeciesName } from "./store/species/action";
 import { ThunkDispatch } from "redux-thunk";
 import { ApplicationState } from "./store";
 import { Species } from "./store/species/types";
+import SpeciesChart from "./components/SpeciesChart";
 
 interface PropsFromState {
   loading: boolean;
@@ -28,14 +29,9 @@ interface propsFromDispatch {
   fetchRequest: () => any;
 }
 
-type AllProps = PropsFromState & propsFromDispatch;
+type Props = PropsFromState & propsFromDispatch;
 
-const App: React.FC<AllProps> = ({
-  loading,
-  errors,
-  species,
-  fetchRequest,
-}) => {
+const App: React.FC<Props> = ({ loading, errors, species, fetchRequest }) => {
   console.log("species", species);
   console.log("loading", loading);
 
@@ -43,6 +39,7 @@ const App: React.FC<AllProps> = ({
 
   const handleChange = (event: any) => {
     setSpecies(event.target.value);
+    setSpeciesName(event.target.value);
   };
 
   useEffect(() => {
@@ -58,9 +55,9 @@ const App: React.FC<AllProps> = ({
       <Container maxWidth="xl">
         <Header />
         <div className="App-body">
-          {loading ? 
-          <h5>Loading Data...</h5>
-          : (
+          {loading ? (
+            <h5>Loading Data...</h5>
+          ) : (
             <>
               <FormControl fullWidth>
                 <InputLabel id="species-label">Species</InputLabel>
@@ -80,6 +77,7 @@ const App: React.FC<AllProps> = ({
                   })}
                 </Select>
               </FormControl>
+              <SpeciesChart />
             </>
           )}
         </div>

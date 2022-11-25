@@ -1,4 +1,4 @@
-import { SpeciesActionTypes } from "./types";
+import { Species, SpeciesActionTypes } from "./types";
 import { ActionCreator, Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { ApplicationState } from "../index";
@@ -46,6 +46,24 @@ export const fetchRequest: AppThunk = () => {
     } catch (e) {
       return dispatch({
         type: SpeciesActionTypes.FETCH_ERROR,
+      });
+    }
+  };
+};
+
+export const setSpeciesName: AppThunk = (species) => {
+  console.log("setSpeciesName");
+  console.log("species", species);
+  return (dispatch: Dispatch): Action => {
+    try {
+      return dispatch({
+        type: SpeciesActionTypes.SET_SPECIES,
+        payload: species,
+      });
+    } catch (e) {
+      return dispatch({
+        type: SpeciesActionTypes.SET_SPECIES_ERROR,
+        error: e,
       });
     }
   };

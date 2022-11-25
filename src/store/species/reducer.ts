@@ -5,6 +5,7 @@ export const initialState: SpeciesState = {
   species: [],
   errors: undefined,
   loading: false,
+  selectedSpecies: '',
 };
 
 const reducer: Reducer<SpeciesState> = (state = initialState, action) => {
@@ -18,6 +19,9 @@ const reducer: Reducer<SpeciesState> = (state = initialState, action) => {
     }
     case SpeciesActionTypes.FETCH_ERROR: {
       return { ...state, loading: false, errors: action.payload };
+    }
+    case SpeciesActionTypes.SET_SPECIES: {
+      return { ...state, selectedSpecies: action.payload };
     }
     default: {
       return state;

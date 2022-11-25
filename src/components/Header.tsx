@@ -1,7 +1,13 @@
 import React from "react";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 
-export default function Header() {
+interface PropsFromState {}
+  
+  interface propsFromDispatch {}
+  
+  type AllProps = PropsFromState & propsFromDispatch;
+
+const Header: React.FC<AllProps> = () => {
   return (
     <header>
       <AppBar>
@@ -12,3 +18,5 @@ export default function Header() {
     </header>
   );
 }
+
+export default Header

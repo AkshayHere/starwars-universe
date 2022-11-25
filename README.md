@@ -13,3 +13,7 @@ profiling the different species of the star wars universe.
 [Redux Typescript](https://blog.logrocket.com/build-type-safe-react-redux-app/)
 
 [Redux Logger](https://github.com/LogRocket/redux-logger)
+
+[React Redux Typescript](https://github.com/ganeshmani/react-redux-typescript-example)
+
+[Recharts](https://recharts.org/en-US)
